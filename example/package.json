@@ -9,7 +9,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "mnemonic-pictures": "file:../pkg"
+    "@gregorykogan/mnemonic-pictures": "file:../pkg"
   },
   "devDependencies": {
     "typescript": "^4.9.3",

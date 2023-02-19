@@ -1,12 +1,15 @@
 import './style.css'
-import { greet, draw_circle } from 'mnemonic-pictures'
+import { greet, noise_fill } from '@gregorykogan/mnemonic-pictures';
 
 
 document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
   <div>
     <h1>${greet("JavaScript")}</h1>
-    <canvas id="displayCanvas" width="300" height="200"></canvas>
+    <canvas id="displayCanvas" width="100" height="65"></canvas>
   </div>
 `
 
-draw_circle("displayCanvas");
+noise_fill(
+  "displayCanvas", 
+  BigInt(Math.round(Math.random() * 1000000)),
+);
