@@ -1,7 +1,7 @@
-use image::{ImageBuffer, Rgba, RgbaImage};
-use simple_simplex::NoiseConfig;
-use wasm_bindgen::{prelude::*, Clamped};
-use web_sys::ImageData;
+mod picture_gen;
+use image::ImageBuffer;
+use picture_gen::{get_canvas, put_image_to_canvas, create};
+use wasm_bindgen::prelude::*;
 extern crate console_error_panic_hook;
 
 #[wasm_bindgen]
@@ -23,70 +23,20 @@ extern "C" {
 }
 
 #[wasm_bindgen]
+pub fn init_console_errors() {
+    console_error_panic_hook::set_once();
+}
+
+#[wasm_bindgen]
 pub fn greet(name: &str) -> String {
     format!("Rust is saying hello to {}!", name)
 }
 
-fn get_canvas(
-    canvas_id: &str,
-) -> (
-    web_sys::HtmlCanvasElement,
-    web_sys::CanvasRenderingContext2d,
-) {
-    let document = web_sys::window().unwrap().document().unwrap();
-    let canvas = document.get_element_by_id(canvas_id).unwrap();
-    let canvas: web_sys::HtmlCanvasElement = canvas
-        .dyn_into::<web_sys::HtmlCanvasElement>()
-        .map_err(|_| ())
-        .unwrap();
-    let context = canvas
-        .get_context("2d")
-        .unwrap()
-        .unwrap()
-        .dyn_into::<web_sys::CanvasRenderingContext2d>()
-        .unwrap();
-
-    (canvas, context)
-}
-
 #[wasm_bindgen]
-pub fn noise_fill(
-    canvas_id: &str,
-    seed: u64,
-    octaves: Option<i32>,
-    x_frequency: Option<f32>,
-    y_frequency: Option<f32>,
-    amplitude: Option<f32>,
-    lacunarity: Option<f32>,
-    gain: Option<f32>,
-) {
-    console_error_panic_hook::set_once();
+pub fn generate(canvas_id: &str, seed: u64) {
     let (canvas, context) = get_canvas(canvas_id);
-    let config: NoiseConfig = NoiseConfig::new(
-        octaves.unwrap_or(3),        // Octaves
-        x_frequency.unwrap_or(0.01), // X-Frequency
-        y_frequency.unwrap_or(0.01), // Y-Frequency
-        amplitude.unwrap_or(0.05),   // Amplitude
-        lacunarity.unwrap_or(2.5),   // Lacunarity
-        gain.unwrap_or(0.5),         // Gain
-        (0.0, 255.0),                // range
-        seed,                        // seed
-    );
-
-    let mut img: RgbaImage = ImageBuffer::new(canvas.width(), canvas.height());
-    for x in 0..canvas.width() {
-        for y in 0..canvas.height() {
-            let noise_value = config.generate_raw_range(
-                x as f32 / canvas.width() as f32 * 2.0,
-                y as f32 / canvas.height() as f32 * 2.0,
-            ) as u8;
-            img.put_pixel(x, y, Rgba([noise_value, noise_value, noise_value, 255]));
-        }
-    }
-
-    let clamped_buf: Clamped<&[u8]> = Clamped(img.as_raw());
-    let image_data_temp =
-        ImageData::new_with_u8_clamped_array_and_sh(clamped_buf, img.width(), img.height())
-            .unwrap();
-    context.put_image_data(&image_data_temp, 0.0, 0.0).unwrap();
+    let (width, height) = (canvas.width(), canvas.height());
+    let mut img = ImageBuffer::new(width, height);
+    create(&mut img, seed);
+    put_image_to_canvas(&img, context);
 }
