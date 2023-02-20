@@ -1,5 +1,8 @@
 import './style.css'
-import { greet, noise_fill } from '@gregorykogan/mnemonic-pictures';
+import init, { greet, noise_fill } from '@gregorykogan/mnemonic-pictures';
+
+
+await init();
 
 
 document.querySelector<HTMLDivElement>('#app')!.innerHTML = `

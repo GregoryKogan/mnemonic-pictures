@@ -3,18 +3,19 @@
 # abort on errors
 set -e
 
-# build
 yarn build
 
-# navigate into the build output directory
 cd dist
 
 cp index.html 404.html
+
+echo > .nojekyll
 
 # if you are deploying to a custom domain
 # echo 'www.example.com' > CNAME
 
 git init
+git checkout -B main
 git add -A
 git commit -m 'deploy'
 
