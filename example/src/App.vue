@@ -15,7 +15,7 @@ export default defineComponent({
   name: "App",
   data: () => ({
     wasmLoaded: false,
-    stringSeed: "Str seed",
+    stringSeed: "Seed",
     resolution: 400,
   }),
   mounted() {
