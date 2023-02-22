@@ -1,5 +1,7 @@
 mod picture_gen;
+use std::hash::Hasher;
 use picture_gen::MnemonincGenerator;
+use siphasher::sip128::SipHasher;
 use wasm_bindgen::prelude::*;
 extern crate console_error_panic_hook;
 
@@ -33,6 +35,15 @@ pub fn greet(name: &str) -> String {
 
 #[wasm_bindgen]
 pub fn generate(canvas_id: &str, seed: u64) {
+    let mut generator = MnemonincGenerator::new(canvas_id, seed);
+    generator.generate();
+}
+
+#[wasm_bindgen]
+pub fn generate_from_string(canvas_id: &str, seed_string: &str) {
+    let mut hasher = SipHasher::new();
+    hasher.write(seed_string.as_bytes());
+    let seed = hasher.finish();
     let mut generator = MnemonincGenerator::new(canvas_id, seed);
     generator.generate();
 }

@@ -117,7 +117,8 @@ impl MnemonincGenerator {
     fn noise_fill(&mut self) {
         let mut noise = FastNoise::seeded(self.seed);
         noise.set_noise_type(NoiseType::Simplex);
-        noise.set_frequency(2.0);
+        let freq = self.rng.gen_range(0.5..5.0);
+        noise.set_frequency(freq);
 
         for x in 0..self.img.width {
             for y in 0..self.img.height {

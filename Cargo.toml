@@ -1,6 +1,6 @@
 [package]
 name = "mnemonic-pictures"
-version = "0.2.0"
+version = "0.3.0"
 authors = ["GregoryKogan <grisha.koganovskiy@gmail.com>"]
 edition = "2021"
 license = "MIT"
@@ -19,6 +19,7 @@ bracket-noise = "0.8.7"
 rand = "0.8.5"
 rand_chacha = "0.3.1"
 colorgrad = "0.6.2"
+siphasher = "0.3.10"
 
 [dependencies.web-sys]
 version = "0.3.61"
