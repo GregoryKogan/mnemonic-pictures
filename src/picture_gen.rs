@@ -1,5 +1,5 @@
 use bracket_noise::prelude::{FastNoise, NoiseType};
-use colorgrad::Gradient;
+use colorgrad::{Color, Gradient};
 use rand::{Rng, SeedableRng};
 use rand_chacha::ChaCha8Rng;
 use wasm_bindgen::{Clamped, JsCast};
@@ -115,8 +115,21 @@ impl MnemonincGenerator {
     fn noise_fill(&mut self) {
         let noise_seed = self.rng.gen::<u64>();
         let mut noise = FastNoise::seeded(noise_seed);
-        noise.set_noise_type(NoiseType::Simplex);
-        let freq = self.rng.gen_range(0.5..5.0);
+        let noise_types = [
+            (NoiseType::Simplex, 0.5, 5.0),
+            (NoiseType::SimplexFractal, 0.5, 5.0),
+            (NoiseType::Perlin, 0.5, 5.0),
+            (NoiseType::PerlinFractal, 0.5, 5.0),
+            (NoiseType::Cellular, 10.0, 100.0),
+            (NoiseType::WhiteNoise, 0.5, 5.0),
+            (NoiseType::Cubic, 0.5, 5.0),
+            (NoiseType::CubicFractal, 0.5, 5.0),
+            (NoiseType::Value, 0.5, 5.0),
+            (NoiseType::ValueFractal, 0.5, 5.0),
+        ];
+        let (noise_type, range_min, range_max) = &noise_types[self.rng.gen_range(0..noise_types.len())];
+        noise.set_noise_type(*noise_type);
+        let freq = self.rng.gen_range(*range_min..*range_max);
         noise.set_frequency(freq);
 
         for x in 0..self.img.width {
@@ -200,44 +213,25 @@ impl MnemonincGenerator {
         (x, y)
     }
 
-    fn get_random_gradient(&mut self) -> fn() -> Gradient {
-        let gradients = [
-            colorgrad::br_bg,
-            colorgrad::pr_gn,
-            colorgrad::pi_yg,
-            colorgrad::pu_or,
-            colorgrad::rd_bu,
-            colorgrad::rd_gy,
-            colorgrad::rd_yl_bu,
-            colorgrad::rd_yl_gn,
-            colorgrad::spectral,
-            colorgrad::blues,
-            colorgrad::greens,
-            colorgrad::greys,
-            colorgrad::oranges,
-            colorgrad::purples,
-            colorgrad::reds,
-            colorgrad::viridis,
-            colorgrad::inferno,
-            colorgrad::magma,
-            colorgrad::plasma,
-            colorgrad::bu_gn,
-            colorgrad::bu_pu,
-            colorgrad::gn_bu,
-            colorgrad::or_rd,
-            colorgrad::pu_bu_gn,
-            colorgrad::pu_bu,
-            colorgrad::rd_pu,
-            colorgrad::yl_gn_bu,
-            colorgrad::yl_gn,
-            colorgrad::yl_or_br,
-            colorgrad::yl_or_rd,
-        ];
-        gradients[self.rng.gen_range(0..gradients.len())]
+    fn get_random_gradient(&mut self) -> Gradient {
+        let mut colors: Vec<Color> = vec![];
+        let amount = self.rng.gen_range(2..=20);
+        for _ in 0..amount {
+            colors.push(Color::new(
+                self.rng.gen_range(0.0..=1.0) as f64,
+                self.rng.gen_range(0.0..=1.0) as f64,
+                self.rng.gen_range(0.0..=1.0) as f64,
+                1.0,
+            ));
+        }
+        colorgrad::CustomGradient::new()
+            .colors(colors.as_slice())
+            .build()
+            .unwrap()
     }
 
     fn color_image(&mut self) {
-        let gradient = self.get_random_gradient()();
+        let gradient = self.get_random_gradient();
         for x in 0..self.img.width {
             for y in 0..self.img.height {
                 let ind = self.img.coordinates_to_index(x, y);

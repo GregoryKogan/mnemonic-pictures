@@ -1,7 +1,7 @@
 mod picture_gen;
-use std::hash::Hasher;
 use picture_gen::MnemonincGenerator;
 use siphasher::sip128::SipHasher;
+use std::hash::Hasher;
 use wasm_bindgen::prelude::*;
 extern crate console_error_panic_hook;
 
