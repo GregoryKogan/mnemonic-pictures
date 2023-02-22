@@ -13,6 +13,13 @@ Generate a unique picture for any given (number/string) seed
   <img alt="examples" src="https://raw.githubusercontent.com/GregoryKogan/GregoryKogan/main/mnemonic.gif">
 </p>
 
+**Generation is presistent across devices and sessions**\
+To verify this, you can enter 'Moon' seed at 600x400 resolution in the [online demo](https://gregorykogan.github.io/mnemonic-pictures)\
+Resulting image should like Moon surface
+<p align="center">
+  <img alt="Moon" src="https://user-images.githubusercontent.com/60318411/220758287-d96c1594-f74e-4ec2-a068-4973b1fd0455.png">
+</p>
+
 ## Installation
 
 NPM package: https://www.npmjs.com/package/@gregorykogan/mnemonic-pictures
