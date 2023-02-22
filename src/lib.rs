@@ -1,6 +1,5 @@
 mod picture_gen;
-use image::ImageBuffer;
-use picture_gen::{get_canvas, put_image_to_canvas, create};
+use picture_gen::MnemonincGenerator;
 use wasm_bindgen::prelude::*;
 extern crate console_error_panic_hook;
 
@@ -34,9 +33,6 @@ pub fn greet(name: &str) -> String {
 
 #[wasm_bindgen]
 pub fn generate(canvas_id: &str, seed: u64) {
-    let (canvas, context) = get_canvas(canvas_id);
-    let (width, height) = (canvas.width(), canvas.height());
-    let mut img = ImageBuffer::new(width, height);
-    create(&mut img, seed);
-    put_image_to_canvas(&img, context);
+    let mut generator = MnemonincGenerator::new(canvas_id, seed);
+    generator.generate();
 }
