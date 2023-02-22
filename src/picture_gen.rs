@@ -87,7 +87,6 @@ impl Image {
 }
 
 pub struct MnemonincGenerator {
-    seed: u64,
     rng: ChaCha8Rng,
     context: CanvasRenderingContext2d,
     img: Image,
@@ -99,8 +98,7 @@ impl MnemonincGenerator {
         let (canvas, context) = MnemonincGenerator::get_canvas(canvas_id);
         let (width, height) = (canvas.width(), canvas.height());
         MnemonincGenerator {
-            seed,
-            rng: ChaCha8Rng::seed_from_u64(seed),
+            rng: ChaCha8Rng::seed_from_u64(seed + width as u64 + height as u64),
             context,
             img: Image::new(width, height),
             path: vec![0; (width * height) as usize],
@@ -115,7 +113,8 @@ impl MnemonincGenerator {
     }
 
     fn noise_fill(&mut self) {
-        let mut noise = FastNoise::seeded(self.seed);
+        let noise_seed = self.rng.gen::<u64>();
+        let mut noise = FastNoise::seeded(noise_seed);
         noise.set_noise_type(NoiseType::Simplex);
         let freq = self.rng.gen_range(0.5..5.0);
         noise.set_frequency(freq);
