@@ -14,10 +14,10 @@ Generate a unique picture for any given (number/string) seed
 </p>
 
 **Generation is presistent across devices and sessions**\
-To verify this, you can enter 'Moon' seed at 600x400 resolution in the [online demo](https://gregorykogan.github.io/mnemonic-pictures)\
-Resulting image should like Moon surface
+To verify this, you can enter 'Red Sky' seed at 195x130 resolution in the [online demo](https://gregorykogan.github.io/mnemonic-pictures)\
+Resulting image should like red sky
 <p align="center">
-  <img alt="Moon" src="https://user-images.githubusercontent.com/60318411/220758287-d96c1594-f74e-4ec2-a068-4973b1fd0455.png">
+  <img width="838" alt="image" src="https://user-images.githubusercontent.com/60318411/220775652-f1eb74d9-3e7a-45a4-a4e9-23978eda837a.png">
 </p>
 
 ## Installation
@@ -125,3 +125,7 @@ Often canvases of small sizes (15 by 10 for example) are displayed blurry. To fi
   image-rendering: pixelated;
 }
 ```
+
+### Example
+
+You can see full usage example [here](https://github.com/GregoryKogan/mnemonic-pictures/tree/main/example)
