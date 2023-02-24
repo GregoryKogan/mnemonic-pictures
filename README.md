@@ -15,7 +15,7 @@ Generate a unique picture for any given (number/string) seed
 
 **Generation is presistent across devices and sessions**\
 To verify this, you can enter 'Red Sky' seed at 195x130 resolution in the [online demo](https://gregorykogan.github.io/mnemonic-pictures)\
-Resulting image should like red sky
+Resulting image should look like red sky
 <p align="center">
   <img width="838" alt="image" src="https://user-images.githubusercontent.com/60318411/220775652-f1eb74d9-3e7a-45a4-a4e9-23978eda837a.png">
 </p>
