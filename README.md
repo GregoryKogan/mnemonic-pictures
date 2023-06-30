@@ -39,7 +39,8 @@ yarn add @gregorykogan/mnemonic-pictures
 This package uses [WASM](https://webassembly.org/) which is not supported by default by most frontend tooling. 
 You would need some 3rd party package to add WASM support. For example this is what you would need to do for [Vite](https://vitejs.dev/):
 
-Add [vite-plugin-wasm](https://www.npmjs.com/package/vite-plugin-wasm) and configure it like this
+Add [vite-plugin-wasm](https://www.npmjs.com/package/vite-plugin-wasm) and [vite-plugin-top-level-await](https://www.npmjs.com/package/vite-plugin-top-level-await).
+Configure it like this
 ```typescript
 // vite.config.ts
 
