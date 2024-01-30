@@ -10,7 +10,7 @@ NPM package for generating mnemonic pictures written in Rust
 
 Generate a unique picture for any given (number/string) seed
 <p align="center">
-  <img alt="examples" src="https://raw.githubusercontent.com/GregoryKogan/GregoryKogan/main/mnemonic2.gif">
+  <img alt="examples" src="https://raw.githubusercontent.com/GregoryKogan/GregoryKogan/main/readme_assets/mnemonic2.gif">
 </p>
 
 **Generation is presistent across devices and sessions**\
